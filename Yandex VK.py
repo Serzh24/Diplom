@@ -42,9 +42,8 @@ class VKontakte:
             image_info['file_name'] = (str(el['likes']['count']))+'_'+(str(el['date']))
             image_info['size'] = el['sizes'][-1]['type']
             list_image_info.append(image_info)
-        image_info = json.dumps(list_image_info)
-        print(image_info)
-        return image_info
+        print(list_image_info)
+        return list_image_info
 
 class YandexDisk:
 
@@ -101,7 +100,6 @@ if __name__ == '__main__':
         ya.upload_file_to_disk_url(disk_file_path='Photos/'+k, download_url=v)
         time.sleep(1)
     pprint.pprint(user.get_likes())
-    my_file = open("info.txt", "w+")
-    my_file.write(user.get_info())
-    my_file.close()
-    ya.upload_file_to_disk(disk_file_path='Photos/info.txt', filename='info.txt')
+    with open('info.json', 'w') as file:
+        json.dump(user.get_info(), file, indent=2)
+    ya.upload_file_to_disk(disk_file_path='Photos/info.json', filename='info.json')
